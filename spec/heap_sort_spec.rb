@@ -29,5 +29,14 @@ describe Array do
 
       expect(arr).to eq([])
     end
+
+    it "does not make a copy of the array" do
+      forbidden_array_methods = [:collect, :dup, :inject, :map, :reduce, :reverse, :slice]
+      arr = [1, 2, 3, 4, 5]
+      forbidden_array_methods.each {|method| expect(arr).to_not receive(method) }
+      new_arr = arr.heap_sort!
+
+      expect(arr.object_id).to eq(new_arr.object_id)
+    end
   end
 end
