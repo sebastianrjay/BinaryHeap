@@ -10,7 +10,7 @@ class BinaryHeap
 
   def extract
     return nil if @store.empty?
-    swap_elements!(0, @store.length - 1)
+    @store[0], @store[-1] = @store[-1], @store[0]
     val = @store.pop
     heapify_down!
     val
@@ -19,11 +19,11 @@ class BinaryHeap
   def heapify_down!(array = @store, len = array.length)
     parent_idx = 0
 
-    until (child_to_swap_idx = child_to_swap_index(parent_idx, len, array)).nil?
-      break if heap_condition_is_satisfied?(parent_idx, child_to_swap_idx, array)
+    until (child_idx = child_to_swap_index(parent_idx, len, array)).nil?
+      break if heap_condition_is_satisfied?(parent_idx, child_idx, array)
 
-      swap_elements!(parent_idx, child_to_swap_idx, array)
-      parent_idx = child_to_swap_idx
+      array[parent_idx], array[child_idx] = array[child_idx], array[parent_idx]
+      parent_idx = child_idx
     end
   end
 
@@ -31,7 +31,7 @@ class BinaryHeap
     until (parent_idx = parent_index(child_idx)).nil?
       break if heap_condition_is_satisfied?(parent_idx, child_idx, array)
 
-      swap_elements!(child_idx, parent_idx, array) 
+      array[parent_idx], array[child_idx] = array[child_idx], array[parent_idx]
       child_idx = parent_idx
     end
   end
@@ -62,10 +62,6 @@ class BinaryHeap
 
   def parent_index(child_idx)
     child_idx > 0 ? (child_idx - 1) / 2 : nil
-  end
-
-  def swap_elements!(idx1, idx2, array = @store)
-    array[idx1], array[idx2] = array[idx2], array[idx1]
   end
 end
 
