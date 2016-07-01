@@ -27,9 +27,7 @@ class BinaryHeap
     end
   end
 
-  def heapify_up!(array = @store, child_idx = nil)
-    child_idx ||= array.length - 1
-
+  def heapify_up!(array = @store, child_idx = array.length - 1)
     until (parent_idx = parent_index(child_idx)).nil?
       break if heap_condition_is_satisfied?(parent_idx, child_idx, array)
 
@@ -50,7 +48,7 @@ class BinaryHeap
 
   private
 
-  def child_to_swap_index(parent_idx, array, length = array.length)
+  def child_to_swap_index(parent_idx, array, length)
     # Returns the index of the smallest child in a min heap, or the index of the 
     # largest child in a max heap. Returns nil when parent_idx has no children
     [(2 * parent_idx) + 1, (2 * parent_idx) + 2]
@@ -66,7 +64,7 @@ class BinaryHeap
     child_idx > 0 ? (child_idx - 1) / 2 : nil
   end
 
-  def swap_elements!(idx1, idx2, array)
+  def swap_elements!(idx1, idx2, array = @store)
     array[idx1], array[idx2] = array[idx2], array[idx1]
   end
 end
