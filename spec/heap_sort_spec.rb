@@ -31,9 +31,16 @@ describe Array do
     end
 
     it "does not make a copy of the array" do
-      forbidden_array_methods = [:collect, :dup, :inject, :map, :reduce, :reverse, :slice]
       arr = [1, 2, 3, 4, 5]
-      forbidden_array_methods.each {|method| expect(arr).to_not receive(method) }
+
+      forbidden_array_methods = [:clone, :collect, :collect_concat, :cycle, 
+        :drop, :dup, :entries, :find_all, :flat_map, :group_by, :inject, :map, 
+        :partition, :reduce, :reverse, :slice, :slice_after, :slice_before, 
+        :slice_when, :take, :zip]
+      forbidden_array_methods.each do |method|
+        expect(arr).to_not receive(method)
+      end
+      
       new_arr = arr.heap_sort!
 
       expect(arr.object_id).to eq(new_arr.object_id)

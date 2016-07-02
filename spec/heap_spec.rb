@@ -3,12 +3,14 @@ require "heap"
 describe BinaryMinHeap do
   before(:each) { @heap = BinaryMinHeap.new }
   before(:all) do
-    @forbidden_array_methods = [:collect, :collect!, :concat, :delete, 
-      :delete_at, :delete_if, :drop, :each, :each_index, :find_index, :flatten, 
-      :include?, :index, :insert, :map, :map!, :max, :max_by, :min, :min_by, 
-      :rassoc, :reject, :reject!, :reverse, :reverse!, :reverse_each, :rindex, 
-      :rotate, :select, :select!, :shift, :slice, :sort, :sort!, :sort_by, 
-      :sort_by!, :take, :take_while, :unshift]
+    @forbidden_array_methods = [:clone, :collect, :collect!, :collect_concat, 
+      :concat, :cycle, :delete, :delete_at, :delete_if, :drop, :dup, :each, 
+      :each_index, :entries, :find_all, :find_index, :flat_map, :flatten, 
+      :group_by, :include?, :index, :inject, :insert, :map, :map!, :max, 
+      :max_by, :min, :min_by, :partition, :rassoc, :reduce, :reject, :reject!, 
+      :reverse, :reverse!, :reverse_each, :rindex, :rotate, :select, :select!, 
+      :shift, :slice, :slice_after, :slice_before, :slice_when, :sort, :sort!, 
+      :sort_by, :sort_by!, :take, :take_while, :unshift, :zip]
   end
 
   describe "#initialize" do
@@ -17,7 +19,7 @@ describe BinaryMinHeap do
     end
   end
 
-  describe ".heapify_down!" do
+  describe ".heapify_down! class method" do
     it "correctly reorders the elements in the store" do
       [7, 4, 5].each { |num| @heap.instance_variable_get(:@store) << num }
       BinaryMinHeap.heapify_down!(@heap.instance_variable_get(:@store))
@@ -30,7 +32,7 @@ describe BinaryMinHeap do
     end
   end
 
-  describe ".heapify_up!" do
+  describe ".heapify_up! class method" do
     it "correctly reorders the elements in the store" do
       [4, 5, 1].each { |num| @heap.instance_variable_get(:@store) << num }
       BinaryMinHeap.heapify_up!(@heap.instance_variable_get(:@store))
