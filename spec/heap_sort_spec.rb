@@ -23,13 +23,6 @@ describe Array do
       expect(arr).to eq([1,2,3,4,5])
     end
 
-    it "works on an empty array" do
-      arr = []
-      arr.heap_sort!
-
-      expect(arr).to eq([])
-    end
-
     it "does not make a copy of the array" do
       arr = [1, 2, 3, 4, 5]
 
@@ -44,6 +37,13 @@ describe Array do
       new_arr = arr.heap_sort!
 
       expect(arr.object_id).to eq(new_arr.object_id)
+    end
+
+    it "works on an empty array" do
+      arr = []
+      
+      expect(arr.heap_sort!.object_id).to eq(arr.object_id)
+      expect(arr).to eq([])
     end
   end
 end
