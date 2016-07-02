@@ -17,28 +17,28 @@ describe BinaryMinHeap do
     end
   end
 
-  describe "#heapify_down!" do
+  describe ".heapify_down!" do
     it "correctly reorders the elements in the store" do
       [7, 4, 5].each { |num| @heap.instance_variable_get(:@store) << num }
-      @heap.send(:heapify_down!)
+      BinaryMinHeap.heapify_down!(@heap.instance_variable_get(:@store))
       expect(@heap.instance_variable_get(:@store)).to eq([4, 7, 5])
 
       @heap.instance_variable_get(:@store).clear
       [7, 4, 5, 6, 8].each { |num| @heap.instance_variable_get(:@store) << num }
-      @heap.send(:heapify_down!)
+      BinaryMinHeap.heapify_down!(@heap.instance_variable_get(:@store))
       expect(@heap.instance_variable_get(:@store)).to eq([4, 6, 5, 7, 8])
     end
   end
 
-  describe "#heapify_up!" do
+  describe ".heapify_up!" do
     it "correctly reorders the elements in the store" do
       [4, 5, 1].each { |num| @heap.instance_variable_get(:@store) << num }
-      @heap.send(:heapify_up!)
+      BinaryMinHeap.heapify_up!(@heap.instance_variable_get(:@store))
       expect(@heap.instance_variable_get(:@store)).to eq([1, 5, 4])
 
       @heap.instance_variable_get(:@store).clear
       [3, 4, 5, 1].each { |num| @heap.instance_variable_get(:@store) << num }
-      @heap.send(:heapify_up!)
+      BinaryMinHeap.heapify_up!(@heap.instance_variable_get(:@store))
       expect(@heap.instance_variable_get(:@store)).to eq([1, 3, 5, 4])
     end
   end
