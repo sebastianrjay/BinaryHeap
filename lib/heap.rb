@@ -1,7 +1,6 @@
 class BinaryHeap
-  def initialize(comparator)
-    raise "Invalid comparator" unless [:<, :>, '<', '>'].include?(comparator)
-    @comparator, @store = comparator, []
+  def initialize
+    @store = []
   end
 
   def count
@@ -12,7 +11,7 @@ class BinaryHeap
     return nil if @store.empty?
     @store[0], @store[-1] = @store[-1], @store[0]
     val = @store.pop
-    self.class.heapify_down!(@store, @comparator)
+    self.class.heapify_down!(@store)
     val
   end
 
@@ -22,42 +21,40 @@ class BinaryHeap
 
   def push(val)
     @store << val
-    self.class.heapify_up!(@store, @comparator)
+    self.class.heapify_up!(@store)
     val
   end
 
-  def self.child_to_swap_index(array, parent_idx, length, comparator = :<)
+  def self.child_to_swap_index(array, parent_idx, length)
     # Returns the index of the smallest child in a min heap, or the index of the 
     # largest child in a max heap. Returns nil when parent_idx has no children
     [(2 * parent_idx) + 1, (2 * parent_idx) + 2]
       .select { |idx| idx < length }
-      .send("#{comparator.to_sym == :> ? :max : :min}_by") { |idx| array[idx] }
+      .send("#{@comparator == :> ? :max : :min}_by") { |idx| array[idx] }
   end
 
-  def self.heapify_down!(array, comparator = :<, len = array.length)
+  def self.heapify_down!(array, len = array.length)
     parent_idx = 0
 
-    until (child_idx = 
-        child_to_swap_index(array, parent_idx, len, comparator)).nil?
-    
-      break if heap_property_is_met?(array, parent_idx, child_idx, comparator)
+    until (child_idx = child_to_swap_index(array, parent_idx, len)).nil?  
+      break if heap_property_is_met?(array, parent_idx, child_idx)
 
       array[parent_idx], array[child_idx] = array[child_idx], array[parent_idx]
       parent_idx = child_idx
     end
   end
 
-  def self.heapify_up!(array, comparator = :<, child_idx = array.length - 1)
+  def self.heapify_up!(array, child_idx = array.length - 1)
     until (parent_idx = parent_index(child_idx)).nil?
-      break if heap_property_is_met?(array, parent_idx, child_idx, comparator)
+      break if heap_property_is_met?(array, parent_idx, child_idx)
 
       array[parent_idx], array[child_idx] = array[child_idx], array[parent_idx]
       child_idx = parent_idx
     end
   end
 
-  def self.heap_property_is_met?(array, parent_idx, child_idx, comparator = :<)
-    array[parent_idx].send("#{comparator}=", array[child_idx])
+  def self.heap_property_is_met?(array, parent_idx, child_idx)
+    array[parent_idx].send("#{@comparator}=", array[child_idx])
   end
 
   def self.parent_index(child_idx)
@@ -66,17 +63,14 @@ class BinaryHeap
 end
 
 class BinaryMaxHeap < BinaryHeap
-  def initialize
-    super(:>)
-  end
+  # Defined as instance variable; class variable scope is limited to own class
+  @comparator = :>
 
   alias_method :max, :peek
 end
 
 class BinaryMinHeap < BinaryHeap
-  def initialize
-    super(:<)
-  end
+  @comparator = :<
 
   alias_method :min, :peek
 end
