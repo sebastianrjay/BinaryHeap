@@ -31,6 +31,15 @@ describe BinaryMinHeap do
       BinaryMinHeap.heapify_down!(@heap.instance_variable_get(:@store))
       expect(@heap.instance_variable_get(:@store)).to eq([4, 6, 5, 7, 8])
     end
+
+    description = "takes an optional length parameter, indicating the first " +
+      "'length' array elements on which the heapify down operation executes"
+
+    it description do
+      arr = [7, 4, 5, 6, 8]
+      BinaryMinHeap.heapify_down!(arr, 3)
+      expect(arr).to eq([4, 7, 5, 6, 8])
+    end
   end
 
   describe ".heapify_up! class method" do
@@ -43,6 +52,17 @@ describe BinaryMinHeap do
       [3, 4, 5, 1].each { |num| @heap.instance_variable_get(:@store) << num }
       BinaryMinHeap.heapify_up!(@heap.instance_variable_get(:@store))
       expect(@heap.instance_variable_get(:@store)).to eq([1, 3, 5, 4])
+    end
+
+    description = "takes an optional child_index parameter, indicating the " +
+      "array index at which the heapify up operation begins execution"
+
+    it description do
+      arr = [7, 4, 5, 6, 8, 2, 1]
+      BinaryMinHeap.heapify_up!(arr, 4)
+      expect(arr).to eq([7, 4, 5, 6, 8, 2, 1])
+      BinaryMinHeap.heapify_up!(arr, 5)
+      expect(arr).to eq([2, 4, 7, 6, 8, 5, 1])
     end
   end
 

@@ -23,7 +23,7 @@ describe Array do
       expect(arr).to eq([1,2,3,4,5])
     end
 
-    it "does not make a copy of the array" do
+    it "does not make a copy of the array, and returns self" do
       arr = [1, 2, 3, 4, 5]
 
       forbidden_array_methods = [:clone, :collect, :collect_concat, :cycle, 
@@ -39,7 +39,7 @@ describe Array do
       expect(arr.object_id).to eq(new_arr.object_id)
     end
 
-    it "returns self when called on an empty array" do
+    it "works on an empty array" do
       arr = []
       
       expect(arr.heap_sort!.object_id).to eq(arr.object_id)
