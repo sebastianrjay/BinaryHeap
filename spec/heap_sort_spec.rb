@@ -39,7 +39,7 @@ describe Array do
       expect(arr.object_id).to eq(new_arr.object_id)
     end
 
-    it "works on an empty array" do
+    it "returns self when called on an empty array" do
       arr = []
       
       expect(arr.heap_sort!.object_id).to eq(arr.object_id)

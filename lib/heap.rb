@@ -37,7 +37,7 @@ class BinaryHeap
     parent_idx = 0
 
     until (child_idx = child_to_swap_index(array, parent_idx, len)).nil?  
-      break if heap_property_is_met?(array, parent_idx, child_idx)
+      break if heap_property_is_satisfied?(array, parent_idx, child_idx)
 
       array[parent_idx], array[child_idx] = array[child_idx], array[parent_idx]
       parent_idx = child_idx
@@ -46,14 +46,14 @@ class BinaryHeap
 
   def self.heapify_up!(array, child_idx = array.length - 1)
     until (parent_idx = parent_index(child_idx)).nil?
-      break if heap_property_is_met?(array, parent_idx, child_idx)
+      break if heap_property_is_satisfied?(array, parent_idx, child_idx)
 
       array[parent_idx], array[child_idx] = array[child_idx], array[parent_idx]
       child_idx = parent_idx
     end
   end
 
-  def self.heap_property_is_met?(array, parent_idx, child_idx)
+  def self.heap_property_is_satisfied?(array, parent_idx, child_idx)
     array[parent_idx].send("#{@comparator}=", array[child_idx])
   end
 
