@@ -42,6 +42,8 @@ class BinaryHeap
       array[parent_idx], array[child_idx] = array[child_idx], array[parent_idx]
       parent_idx = child_idx
     end
+
+    array
   end
 
   def self.heapify_up!(array, child_idx = array.length - 1)
@@ -51,6 +53,8 @@ class BinaryHeap
       array[parent_idx], array[child_idx] = array[child_idx], array[parent_idx]
       child_idx = parent_idx
     end
+
+    array
   end
 
   def self.heap_property_is_satisfied?(array, parent_idx, child_idx)
