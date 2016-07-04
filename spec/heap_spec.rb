@@ -2,7 +2,6 @@ require "heap"
 
 describe BinaryMinHeap do
   before(:each) { @heap = BinaryMinHeap.new }
-  BinaryMaxHeap::COMPARATOR = :<
   before(:all) do
     @forbidden_array_methods = [:clone, :collect, :collect!, :collect_concat, 
       :concat, :cycle, :delete, :delete_at, :delete_if, :drop, :dup, :each, 
