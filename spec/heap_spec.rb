@@ -65,18 +65,18 @@ describe BinaryMinHeap do
     end
   end
 
-  describe "#push" do
+  describe "#insert" do
     it "adds the new element and reorders the store with heapify_up!" do
-      @heap.push(7)
+      @heap.insert(7)
       expect(@heap.instance_variable_get(:@store)).to eq([7])
 
-      @heap.push(5)
+      @heap.insert(5)
       expect(@heap.instance_variable_get(:@store)).to eq([5, 7])
 
-      @heap.push(6)
+      @heap.insert(6)
       expect(@heap.instance_variable_get(:@store)).to eq([5, 7, 6])
 
-      @heap.push(4)
+      @heap.insert(4)
       expect(@heap.instance_variable_get(:@store)).to eq([4, 5, 6, 7])
     end
 
@@ -85,7 +85,7 @@ describe BinaryMinHeap do
         expect(@heap.instance_variable_get(:@store)).to_not receive(method)
       end
 
-      [7, 5, 6, 4].each { |el| @heap.push(el) }
+      [7, 5, 6, 4].each { |el| @heap.insert(el) }
     end
   end
 
@@ -95,14 +95,14 @@ describe BinaryMinHeap do
     end
 
     it "removes and returns the minimum element from a non-empty store" do
-      [7, 5, 6, 4].each { |el| @heap.push(el) }
+      [7, 5, 6, 4].each { |el| @heap.insert(el) }
 
       expect(@heap.extract).to eq(4)
       expect(@heap.extract).to eq(5)
     end
 
     it "correctly reorders the store with heapify_down!" do
-      [7, 5, 6, 4].each { |el| @heap.push(el) }
+      [7, 5, 6, 4].each { |el| @heap.insert(el) }
 
       @heap.extract
       expect(@heap.instance_variable_get(:@store)).to eq([5, 7, 6])
@@ -111,13 +111,13 @@ describe BinaryMinHeap do
     end
 
     it "works on a heap containing exactly one element" do
-      @heap.push(3)
+      @heap.insert(3)
       expect(@heap.extract).to eq(3)
       expect(@heap.instance_variable_get(:@store)).to eq([])
     end
     
     it "does not call any O(n) array methods on @store" do
-      [7, 5, 6, 4].each { |el| @heap.push(el) }
+      [7, 5, 6, 4].each { |el| @heap.insert(el) }
       @forbidden_array_methods.each do |method|
         expect(@heap.instance_variable_get(:@store)).to_not receive(method)
       end
@@ -129,7 +129,7 @@ describe BinaryMinHeap do
   describe "#count" do
     it "returns the number of elements contained in the store" do
       expect(@heap.count).to eq(0)
-      [7, 5, 6, 4].each { |el| @heap.push(el) }
+      [7, 5, 6, 4].each { |el| @heap.insert(el) }
       expect(@heap.count).to eq(4)
     end
   end
@@ -140,7 +140,7 @@ describe BinaryMinHeap do
     end
 
     it "returns the minimum element in the heap without affecting the store" do
-      [7, 5, 6, 4].each { |el| @heap.push(el) }
+      [7, 5, 6, 4].each { |el| @heap.insert(el) }
       expect(@heap.peek).to eq(4)
       expect(@heap.instance_variable_get(:@store)).to eq([4, 5, 6, 7])
     end
