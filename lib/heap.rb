@@ -33,10 +33,10 @@ class BinaryHeap
       .send("#{@comparator == :> ? :max : :min}_by") { |idx| array[idx] }
   end
 
-  def self.heapify_down!(array, len = array.length)
+  def self.heapify_down!(array, length = array.length)
     parent_idx = 0
 
-    until (child_idx = child_to_swap_index(array, parent_idx, len)).nil?  
+    until (child_idx = child_to_swap_index(array, parent_idx, length)).nil?  
       break if heap_property_is_satisfied?(array, parent_idx, child_idx)
 
       array[parent_idx], array[child_idx] = array[child_idx], array[parent_idx]
