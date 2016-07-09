@@ -30,37 +30,39 @@ class BinaryHeap
     # largest child in a max heap. Returns nil when parent_idx has no children
     [(2 * parent_idx) + 1, (2 * parent_idx) + 2]
       .select { |idx| idx < length } # Only keep indexes within range of length
-      .send("#{@comparator == :> ? :max : :min }_by") { |idx| array[idx] }
+      .send("#{@comparator == :> ? :max : :min}_by") { |idx| array[idx] }
   end
 
-  def self.heapify_down!(array, length = array.length, parent_idx = 0)
-    child_idx = child_to_swap_index(array, parent_idx, length)
+  def self.heapify_down!(array, len = array.length)
+    parent_idx = 0
 
-    if child_idx.nil? || heap_property_is_valid?(array, parent_idx, child_idx)
-      return array
+    until (child_idx = child_to_swap_index(array, parent_idx, len)).nil?  
+      break if heap_property_is_valid?(array, parent_idx, child_idx)
+
+      array[parent_idx], array[child_idx] = array[child_idx], array[parent_idx]
+      parent_idx = child_idx
     end
 
-    array[parent_idx], array[child_idx] = array[child_idx], array[parent_idx]
-    parent_idx = child_idx
-
-    heapify_down!(array, length, parent_idx)
+    array
   end
 
   def self.heapify_up!(array, child_idx = array.length - 1)
-    parent_idx = (child_idx - 1) / 2
+    until (parent_idx = parent_index(child_idx)).nil?
+      break if heap_property_is_valid?(array, parent_idx, child_idx)
 
-    if parent_idx < 0 || heap_property_is_valid?(array, parent_idx, child_idx)
-      return array
+      array[parent_idx], array[child_idx] = array[child_idx], array[parent_idx]
+      child_idx = parent_idx
     end
 
-    array[parent_idx], array[child_idx] = array[child_idx], array[parent_idx]
-    child_idx = parent_idx
-
-    heapify_up!(array, child_idx)
+    array
   end
 
   def self.heap_property_is_valid?(array, parent_idx, child_idx)
     array[parent_idx].send("#{@comparator}=", array[child_idx])
+  end
+
+  def self.parent_index(child_idx)
+    child_idx > 0 ? (child_idx - 1) / 2 : nil
   end
 end
 
